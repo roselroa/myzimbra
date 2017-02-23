@@ -14,8 +14,13 @@ echo fqdn - $FQDN
 echo server IP - $SERVER_IP
 echo arp - $REV_IP
 
-# Disable postfix
+echo "Enable/disable other services"
+# Disable SMTP
 service postfix stop
+service sendmail stop
+service sshd start
+service crond start
+service rsyslog start
 
 # Add server IP on host file
 
@@ -47,8 +52,26 @@ cat /opt/zimbra_config_generated
 echo "Configure Zimbra"
 /opt/zimbra/libexec/zmsetup.pl -c /opt/zimbra_config_generated
 
+echo "Fix rsyslog"
+cat <<EOF >> /etc/rsyslog.conf
+\$ModLoad imudp
+\$UDPServerRun 514
+EOF
+service rsyslog restart
+
+echo "Fix RED status"
+/opt/zimbra/libexec/zmsyslogsetup
+
+echo "Run zmupdatekeys as zimbra"
+su -c /opt/zimbra/bin/zmupdateauthkeys zimbra
+
 echo "Restart Zimbra"
 service zimbra restart
+
+echo "Restart CROND"
+service crond restart
+
+echo "Server is ready..."
 
 if [[ $1 == "-d" ]]; then
   while true; do sleep 1000; done
