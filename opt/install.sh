@@ -14,6 +14,9 @@ echo fqdn - $FQDN
 echo server IP - $SERVER_IP
 echo arp - $REV_IP
 
+# Disable postfix
+service postfix stop
+
 # Add server IP on host file
 
 #echo Adding $HOSTNAME to /etc/hosts
