@@ -16,8 +16,8 @@ echo arp - $REV_IP
 
 # Add server IP on host file
 
-echo Adding $HOSTNAME to /etc/hosts
-echo "$SERVER_IP	$FQDN	$HOSTNAME" >> /etc/hosts
+#echo Adding $HOSTNAME to /etc/hosts
+#echo "$SERVER_IP	$FQDN	$HOSTNAME" >> /etc/hosts
 echo "========================"
 cat /etc/hosts
 echo "========================"
@@ -45,12 +45,12 @@ echo "Configure Zimbra"
 /opt/zimbra/libexec/zmsetup.pl -c /opt/zimbra_config_generated
 
 echo "Restart Zimbra"
-service zembra restart
+service zimbra restart
 
-#if [[ $1 == "-d" ]]; then
-#  while true; do sleep 1000; done
-#fi
+if [[ $1 == "-d" ]]; then
+  while true; do sleep 1000; done
+fi
 
-#if [[ $1 == "-bash" ]]; then
-#  /bin/bash
-#fi
+if [[ $1 == "-bash" ]]; then
+  /bin/bash
+fi

@@ -14,12 +14,6 @@ echo fqdn - $FQDN
 echo server IP - $SERVER_IP
 echo arp - $REV_IP
 
-# Add server IP on host file
-
-echo Adding $HOSTNAME to /etc/hosts
-
-echo "$SERVER_IP	$FQDN	$HOSTNAME" >> /etc/hosts
-
 # Configure DNS option
 
 cat <<EOF >> /etc/named.conf
