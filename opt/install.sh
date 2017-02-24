@@ -34,9 +34,20 @@ cat /etc/resolv.conf
 echo "Configure DNS for ${HOSTNAME}.${DOMAIN}"
 /opt/setup_dns.sh
 
-echo "Extract zimbra installer"
-tar -xzvf /opt/zcs-8.0.2_GA_5569.RHEL6_64.20121210115059.tgz -C /opt/zimbra_installer
+INST_FILE=zcs-8.0.2_GA_5569.RHEL6_64.20121210115059.tgz
+echo "Checking zimbra installer for CentOS...${INST_FILE}"
+if [ ! -f /opt/${INST_FILE} ]; then
+	echo "Downloading from source..."
+	wget -O /opt/${INST_FILE} http://files2.zimbra.com/downloads/8.0.2_GA/${INST_FILE}
+fi
 
+if [ -f /opt/${INST_FILE} ]; then
+	echo "Extracting installer...${INST_FILE}"
+	tar -xzvf /opt/${INST_FILE} -C /opt/zimbra_installer
+else
+	echo "Zimbra installer not found!"
+	exit 1
+fi
 
 echo "Install ZIMBRA"
 echo "========================"
@@ -72,6 +83,8 @@ echo "Restart CROND"
 service crond restart
 
 echo "Server is ready..."
+echo "Login to https://${SERVER_IP} as normal user"
+echo "Login as admin user at https://${SERVER_IP}:7071"
 
 if [[ $1 == "-d" ]]; then
   while true; do sleep 1000; done
