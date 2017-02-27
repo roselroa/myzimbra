@@ -1,6 +1,6 @@
 #!/bin/sh
-HOSTNAME=$(hostname -s)
-DOMAIN=$(hostname -d)
+HOSTNAME=$(hostname -s) || echo $EXT_HOST
+DOMAIN=$(hostname -d) || echo $EXT_DOMAIN
 FQDN="${HOSTNAME}.${DOMAIN}"
 SERVER_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
 REV_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'|awk -F. '{print $3"."$2"."$1}')
@@ -47,6 +47,11 @@ cat <<EOF > /var/named/${DOMAIN}.rev
 ${REV_LAST}	IN	PTR	ns.${DOMAIN}.
 EOF
 
+cat <<EOF > /etc/resolv.conf
+nameserver 127.0.0.1
+nameserver 8.8.8.8
+EOF
+
 echo BIND config
 echo ====================
 cat /etc/named.conf
@@ -57,11 +62,3 @@ cat /var/named/${DOMAIN}.rev
 echo ====================
 
 service named restart
-
-#if [[ $1 == "-d" ]]; then
-#  while true; do sleep 1000; done
-#fi
-#
-#if [[ $1 == "-bash" ]]; then
-#  /bin/bash
-#fi
