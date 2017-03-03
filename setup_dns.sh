@@ -1,6 +1,6 @@
 #!/bin/sh
-HOSTNAME=$(hostname -s) || echo $EXT_HOST
-DOMAIN=$(hostname -d) || echo $EXT_DOMAIN
+HOSTNAME=${EXT_HOST}
+DOMAIN=${EXT_DOMAIN}
 FQDN="${HOSTNAME}.${DOMAIN}"
 SERVER_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
 REV_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'|awk -F. '{print $3"."$2"."$1}')
