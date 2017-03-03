@@ -8,6 +8,6 @@ COPY install.sh /
 COPY setup_dns.sh /
 COPY create_zimbra_config.sh /
 COPY all_yes /
-COPY *.tgz /
+#COPY *.tgz /
 
 CMD ["/bin/bash", "/install.sh", "-d"]
