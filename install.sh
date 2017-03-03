@@ -19,7 +19,7 @@ echo arp - $REV_IP
 
 # fix /etc/hosts
 
-sed -i "/$HOSTNAME/d" /etc/hosts
+#sed -i "/$SERVER_IP/d" /etc/hosts
 cat <<EOF >> /etc/hosts
 ${SERVER_IP}	${FQDN} ${HOSTNAME}
 EOF
@@ -32,8 +32,12 @@ service sshd start
 service crond start
 service rsyslog start
 
+echo "Host file"
+cat /etc/hosts
+
 echo "Configure DNS for ${HOSTNAME}.${DOMAIN}"
 /setup_dns.sh
+
 
 INST_FILE=zcs-8.0.2_GA_5569.RHEL6_64.20121210115059.tgz
 echo "Checking zimbra installer for CentOS...${INST_FILE}"
@@ -49,6 +53,10 @@ else
 	echo "Zimbra installer not found!"
 	exit 1
 fi
+
+
+echo "Host file"
+cat /etc/hosts
 
 echo "Install ZIMBRA"
 echo "========================"
