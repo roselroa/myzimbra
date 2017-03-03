@@ -23,18 +23,18 @@ service crond start
 service rsyslog start
 
 echo "Configure DNS for ${HOSTNAME}.${DOMAIN}"
-/opt/setup_dns.sh
+/setup_dns.sh
 
 INST_FILE=zcs-8.0.2_GA_5569.RHEL6_64.20121210115059.tgz
 echo "Checking zimbra installer for CentOS...${INST_FILE}"
-if [ ! -f /opt/${INST_FILE} ]; then
+if [ ! -f /${INST_FILE} ]; then
 	echo "Downloading from source..."
-	wget -O /opt/${INST_FILE} http://files2.zimbra.com/downloads/8.0.2_GA/${INST_FILE}
+	wget -O /${INST_FILE} http://files2.zimbra.com/downloads/8.0.2_GA/${INST_FILE}
 fi
 
-if [ -f /opt/${INST_FILE} ]; then
+if [ -f /${INST_FILE} ]; then
 	echo "Extracting installer...${INST_FILE}"
-	tar -xzvf /opt/${INST_FILE} -C /opt/zimbra_installer
+	tar -xzvf /${INST_FILE} -C /
 else
 	echo "Zimbra installer not found!"
 	exit 1
@@ -42,17 +42,17 @@ fi
 
 echo "Install ZIMBRA"
 echo "========================"
-cd /opt/zimbra_installer/zcs-* && ./install.sh -s --platform-override < /opt/all_yes
+cd /zcs-* && ./install.sh -s --platform-override < /all_yes
 echo "========================"
 
 echo "Create zimbra config"
-/opt/create_zimbra_config.sh /opt/zimbra_config_generated
+/create_zimbra_config.sh /zimbra_config_generated
 
 echo "Zimbra config dump"
-cat /opt/zimbra_config_generated
+cat /zimbra_config_generated
 
 echo "Configure Zimbra"
-/opt/zimbra/libexec/zmsetup.pl -c /opt/zimbra_config_generated
+/opt/zimbra/libexec/zmsetup.pl -c /zimbra_config_generated
 
 echo "Fix rsyslog"
 cat <<EOF >> /etc/rsyslog.conf

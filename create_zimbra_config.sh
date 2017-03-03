@@ -7,12 +7,12 @@ RANDOMHAM=$(date +%s|sha256sum|base64|head -c 10)
 RANDOMSPAM=$(date +%s|sha256sum|base64|head -c 10)
 RANDOMVIRUS=$(date +%s|sha256sum|base64|head -c 10)
 
-cat <<EOF > $1
-AVDOMAIN="${DOMAIN}"
+cat <<EOF > ${1}
+AVDOMAIN=${DOMAIN}
 AVUSER="admin@${DOMAIN}"
 CREATEADMIN="admin@${DOMAIN}"
 CREATEADMINPASS="${PASSWORD}"
-CREATEDOMAIN="${DOMAIN}"
+CREATEDOMAIN=${DOMAIN}
 DOCREATEADMIN=yes
 DOCREATEDOMAIN=yes
 DOTRAINSA=yes
