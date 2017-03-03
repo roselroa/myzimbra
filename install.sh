@@ -19,8 +19,8 @@ echo arp - $REV_IP
 
 # fix /etc/hosts
 
+sed -i "/$HOSTNAME/d" /etc/hosts
 cat <<EOF >> /etc/hosts
-127.0.0.1	localhost
 ${SERVER_IP}	${FQDN} ${HOSTNAME}
 EOF
 
