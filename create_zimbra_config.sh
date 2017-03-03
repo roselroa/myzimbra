@@ -1,7 +1,9 @@
 #!/bin/sh
 
-HOSTNAME=$(hostname -s) || echo $EXT_HOST
-DOMAIN=$(hostname -d) || echo $EXT_DOMAIN
+# environment variables
+
+HOSTNAME=${EXT_HOST}
+DOMAIN=${EXT_DOMAIN}
 CONTAINERIP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
 RANDOMHAM=$(date +%s|sha256sum|base64|head -c 10)
 RANDOMSPAM=$(date +%s|sha256sum|base64|head -c 10)
