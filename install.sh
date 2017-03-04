@@ -17,13 +17,6 @@ echo fqdn - $FQDN
 echo server IP - $SERVER_IP
 echo arp - $REV_IP
 
-# fix /etc/hosts
-
-#sed -i "/$SERVER_IP/d" /etc/hosts
-cat <<EOF >> /etc/hosts
-${SERVER_IP}	${FQDN} ${HOSTNAME}
-EOF
-
 echo "Enable/disable other services"
 # Disable SMTP
 service postfix stop
