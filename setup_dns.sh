@@ -32,11 +32,9 @@ cat <<EOF > /var/named/${DOMAIN}.fwd
 \$TTL	3D
 @	SOA	ns.${DOMAIN}. root.${DOMAIN}. ( 1 4h 1h 1w 1h )
 @	IN	NS	ns.${DOMAIN}.
-		IN	MX	10	zimbra.${DOMAIN}.
+		IN	MX	10	${HOSTNAME}.${DOMAIN}.
 ns		IN	A	${SERVER_IP}
-www		IN	A	${SERVER_IP}
-mail		IN	A	${SERVER_IP}
-zimbra		IN	A	${SERVER_IP}
+${HOSTNAME}		IN	A	${SERVER_IP}
 EOF
 
 cat <<EOF > /var/named/${DOMAIN}.rev
@@ -44,7 +42,7 @@ cat <<EOF > /var/named/${DOMAIN}.rev
 @	SOA	ns.${DOMAIN}. root.${DOMAIN}. ( 1 4h 1h 1w 1h )
 @	IN	NS	ns.${DOMAIN}.
 
-${REV_LAST}	IN	PTR	ns.${DOMAIN}.
+${REV_LAST}	IN	PTR	${HOSTNAME}.${DOMAIN}.
 EOF
 
 cat <<EOF > /etc/resolv.conf
